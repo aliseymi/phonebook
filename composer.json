@@ -1,0 +1,20 @@
+{
+    "name": "ali/king-php.php",
+    "authors": [
+        {
+            "name": "seymi",
+            "email": "seyedali1377mir@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.4",
+        "hisorange/browser-detect": "^4.4",
+        "catfan/medoo": "^2.1"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    }
+}
