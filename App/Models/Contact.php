@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Models\Contracts\MysqlBaseModel;
 
-class User extends MysqlBaseModel
+class Contact extends MysqlBaseModel
 {
-    protected $table = 'users';
+    protected $table = 'contacts';
     protected $primaryKey = 'id';
 }
