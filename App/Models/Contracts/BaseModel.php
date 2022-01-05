@@ -40,4 +40,9 @@ abstract class BaseModel implements CrudInterface
         return $this->attributes;
     }
 
+    public function getPageSize()
+    {
+        return $this->pageSize;
+    }
+
 }

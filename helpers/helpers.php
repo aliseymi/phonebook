@@ -47,27 +47,46 @@ if (!function_exists('var_print')) {
     }
 }
 
-if(!function_exists('view')){
+if (!function_exists('view')) {
 
-    function view(string $path, array $data = []){ 
+    function view(string $path, array $data = [])
+    {
         $path = str_replace('.', '/', $path);
 
         extract($data);
 
         include_once BASE_PATH . "views/$path.php";
     }
-
 }
 
-if(!function_exists('strContains')){
+if (!function_exists('strContains')) {
 
-    function strContains(string $str, string $needle, $case_sensitive = 0){
-        if($case_sensitive)
+    function strContains(string $str, string $needle, $case_sensitive = 0)
+    {
+        if ($case_sensitive)
             $pos = strpos($str, $needle);
         else
             $pos = stripos($str, $needle);
 
         return ($pos !== false) ? true : false;
     }
+}
 
+
+if (!function_exists('paginationItems')) {
+
+    function paginationItems(object $modelObject)
+    {
+        $totalRows = $modelObject->count([]);
+        $pageSize = $modelObject->getPageSize();
+
+        $pages = (int)(($totalRows / $pageSize) + 1);
+
+        $pageItems = '';
+        for ($i = 1; $i <= $pages ; $i++) { 
+           $pageItems .= '<li class="page-item"><a href="?page='.$i.'" class="page-link">'.$i.'</a></li>';
+        }
+
+        echo $pageItems;
+    }
 }

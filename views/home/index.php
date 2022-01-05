@@ -42,7 +42,6 @@
 
                 <button onclick="addContact()" class="btn btn-info w-100 btn1">Add</button>
 
-
             </div>
 
 
@@ -60,7 +59,9 @@
 
                     <tbody id="tableBody">
 
-                        <?php foreach ($contacts as $contact) : ?>
+                        <?php
+
+                        foreach ($contacts as $contact) : ?>
 
                             <tr>
                                 <td class=""><?= $contact->id ?></td>
@@ -76,11 +77,26 @@
 
                 </table>
 
+                <?php
+
+                use App\Models\Contact;
+
+                $contactModel = new Contact();
+                
+                ?>
+
+                <div class="mt-5">
+                    <ul class="pagination justify-content-center flex-wrap">
+                        <?php paginationItems($contactModel);?>
+                    </ul>
+                </div>
 
             </div>
 
         </div>
-        
+
+
+
     </div>
 
 
