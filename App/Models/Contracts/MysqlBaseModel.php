@@ -84,7 +84,11 @@ class MysqlBaseModel extends BaseModel
 
     public function getAll(): array
     {
-        $records = $this->connection->select($this->table, '*');
+        $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+
+        $start = ($page-1) * $this->pageSize;
+
+        $records = $this->connection->select($this->table, '*', ['LIMIT' => [$start, $this->pageSize]]);
 
         return $this->convertToArrayOfObjects($records);
     }
