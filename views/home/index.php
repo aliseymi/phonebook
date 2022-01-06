@@ -79,7 +79,10 @@
                                 <td class=""><?= $contact->name ?></td>
                                 <td class=""><?= $contact->mobile ?></td>
                                 <td class=""><?= $contact->email ?></td>
-                                <td class="col-1">...</td>
+                                <td class="col-1">
+                                    <a href="<?= site_url("contact/edit/{$contact->id}") ?>" class="mr-2" title="edit"><img src="<?= asset_url('images/edit-icon2.png') ?>" alt="edit"></a>
+                                    <a href="<?= site_url("contact/delete/{$contact->id}") ?>" onclick="return confirm('you want to delete this contact,are you sure?')" title="delete"><img src="<?= asset_url('images/delete-icon.png') ?>" alt="delete"></a>
+                                </td>
                             </tr>
 
                         <?php endforeach; ?>

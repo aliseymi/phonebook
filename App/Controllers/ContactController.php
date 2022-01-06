@@ -22,7 +22,7 @@ class ContactController
         $mobile = $params['mobile'];
         $email = $params['email'];
 
-        if(! Validation::isValidMobileNumber($mobile)){
+        if (!Validation::isValidMobileNumber($mobile)) {
             $data = [
                 'alreadyExists' => false,
                 'success' => false,
@@ -34,7 +34,7 @@ class ContactController
 
         $count = $this->contactModel->count(['mobile' => $mobile]);
 
-        if($count){
+        if ($count) {
             $data = [
                 'alreadyExists' => true,
                 'message' => "The number $mobile already exists!"
@@ -43,7 +43,7 @@ class ContactController
             view_die('contact.add-result', $data);
         }
 
-        if(! Validation::isValidEmail($email)){
+        if (!Validation::isValidEmail($email)) {
             $data = [
                 'alreadyExists' => false,
                 'success' => false,
@@ -66,5 +66,77 @@ class ContactController
         ];
 
         view('contact.add-result', $data);
+    }
+
+    public function showEditForm()
+    {
+        $id = request()->get_route_param('id');
+
+        $contact = $this->contactModel->get('*', ['id' => $id])[0];
+
+        view('contact.edit-contact', compact('contact'));
+    }
+
+    public function update()
+    {
+        $id = request()->get_route_param('id');
+
+        $params = request()->params();
+        $name = $params['name'];
+        $mobile = $params['mobile'];
+        $email = $params['email'];
+
+
+
+        if (!Validation::isValidMobileNumber($mobile)) {
+            $data = ['id' => $id, 'success' => false, 'alreadyExists' => false, 'message' => "Invalid Mobile Number!"];
+            view_die('contact.edit-result', $data);
+        }
+
+        if (!Validation::isValidEmail($email)) {
+            $data = ['id' => $id, 'success' => false, 'alreadyExists' => false, 'message' => "Invalid Email Address!"];
+            view_die('contact.edit-result', $data);
+        }
+
+        $contact_by_mobile = $this->contactModel->get('*', ['mobile' => $mobile]);
+
+
+        if ($contact_by_mobile) {
+
+            $contact_by_mobile = $contact_by_mobile[0];
+
+            if ($contact_by_mobile->id == $id) {
+
+                $this->contactModel->update([
+                    'name' => $name,
+                    'mobile' => $mobile,
+                    'email' => $email
+                ], ['id' => $id]);
+
+                $data = ['id' => $id, 'success' => true, 'alreadyExists' => false, 'message' => "The contact edited successfully!"];
+                view_die('contact.edit-result', $data);
+            } else {
+                $data = ['id' => $id, 'success' => false, 'alreadyExists' => true, 'message' => "The mobile number ($mobile) already exists!"];
+                view_die('contact.edit-result', $data);
+            }
+        }
+
+        $this->contactModel->update([
+            'name' => $name,
+            'mobile' => $mobile,
+            'email' => $email
+        ], ['id' => $id]);
+
+        $data = ['id' => $id, 'success' => true, 'alreadyExists' => false, 'message' => "The contact edited successfully!"];
+        view_die('contact.edit-result', $data);
+    }
+
+    public function delete()
+    {
+        $id = request()->get_route_param('id');
+
+        $deleted_count = $this->contactModel->delete(['id' => $id]);
+
+        view('contact.delete-result', compact('deleted_count'));
     }
 }
