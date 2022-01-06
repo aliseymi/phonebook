@@ -90,3 +90,22 @@ if (!function_exists('paginationItems')) {
         echo $pageItems;
     }
 }
+
+
+if (!function_exists('xss_clean')) {
+
+    function xss_clean(string $string)
+    {
+        return filter_var(htmlspecialchars($string), FILTER_SANITIZE_STRING);
+    }
+}
+
+if (!function_exists('request')) {
+
+    function request()
+    {
+        global $request;
+
+        return $request;
+    }
+}

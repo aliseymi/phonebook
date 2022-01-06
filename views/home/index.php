@@ -28,8 +28,10 @@
 
             <div class="col-lg-4 inp">
 
-                <input onkeyup="searchFunction()" id="myInput" class="form-control mt-2" placeholder="search">
-                <span class="icon text-primary"><i class="fas fa-search"></i></span>
+                <form action="">
+                    <input name="search" onkeyup="searchFunction()" id="myInput" class="form-control mt-2" placeholder="search">
+                    <span class="icon text-primary"><i class="fas fa-search"></i></span>
+                </form>
 
                 <h5 class="mt-5">Add New Contact</h5>
 
@@ -46,6 +48,11 @@
 
 
             <div class="col-lg-8">
+                <?php if(!is_null($search_keyword)): ?>
+
+                <h3 class="mb-3">search results for: <span class="text-warning"><?= $search_keyword ?></span></h3>
+
+                <?php endif; ?>
 
                 <table id="myTable" class="table text-justify table-striped">
 
@@ -82,10 +89,17 @@
                 use App\Models\Contact;
 
                 $contactModel = new Contact();
+
+                $pageSize = $contactModel->getPageSize();
+                $totalRows = $contactModel->count([]);
+                $display = 'block';
+                if($totalRows < $pageSize){
+                    $display = 'none';
+                }
                 
                 ?>
 
-                <div class="mt-5">
+                <div class="mt-5" style="display:<?= $display ?>;">
                     <ul class="pagination justify-content-center flex-wrap">
                         <?php paginationItems($contactModel);?>
                     </ul>

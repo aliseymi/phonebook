@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Contact;
 
-class HomeController 
+class HomeController
 {
     private $contactModel;
 
@@ -15,8 +15,19 @@ class HomeController
 
     public function index()
     {
-        $contacts = $this->contactModel->getAll();
+        $where = [];
+        $search_keyword = request()->search;
 
-        view('home.index', compact('contacts'));
+        if (!is_null($search_keyword)) {
+            $where['OR'] = [
+                'name[~]' => xss_clean($search_keyword),
+                'mobile[~]' => xss_clean($search_keyword),
+                'email[~]' => xss_clean($search_keyword)
+            ];
+        }
+
+        $contacts = $this->contactModel->get('*', $where);
+
+        view('home.index', compact('contacts', 'search_keyword'));
     }
 }

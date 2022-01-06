@@ -75,22 +75,22 @@ class MysqlBaseModel extends BaseModel
         return $this;
     }
 
-    public function get(array $columns, array $where): array
+    public function get($columns, array $where = []): array
     {
-        $records = $this->connection->select($this->table, $columns, $where); 
+        $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+
+        $start = ($page-1) * $this->pageSize;
+
+        $where['LIMIT'] = [$start, $this->pageSize];
+
+        $records = $this->connection->select($this->table, $columns, $where);
 
         return $this->convertToArrayOfObjects($records);
     }
 
     public function getAll(): array
     {
-        $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
-
-        $start = ($page-1) * $this->pageSize;
-
-        $records = $this->connection->select($this->table, '*', ['LIMIT' => [$start, $this->pageSize]]);
-
-        return $this->convertToArrayOfObjects($records);
+        return $this->get('*');
     }
 
     # Update
