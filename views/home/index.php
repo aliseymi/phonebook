@@ -35,22 +35,26 @@
 
                 <h5 class="mt-5">Add New Contact</h5>
 
-                <input onblur="validateName()" class="form-control mb-3 mt-3" placeholder="add name" id="userName">
-                <div id="nameAlert" class="alert alert-danger text-justify p-2 ">Please add name</div>
-                <input onblur="validatePhone()" class="form-control mb-3" placeholder="add phone" id="userPhone">
-                <div id="phoneAlert" class="alert alert-danger text-justify p-2 ">Please add a valid number</div>
-                <input onblur="validateEmail()" class="form-control mb-3" placeholder="add e-mail" id="userEmail">
-                <div id="mailAlert" class="alert alert-danger text-justify p-2 ">Please add a valid e-mail</div>
+                <form action="<?= site_url('contact/add') ?>" method="POST">
 
-                <button onclick="addContact()" class="btn btn-info w-100 btn1">Add</button>
+                    <input name="name" class="form-control mb-3 mt-3" placeholder="add name" id="userName" autocomplete="off">
+                    <div id="nameAlert" class="alert alert-danger text-justify p-2 ">Please add name</div>
+                    <input name="mobile" class="form-control mb-3" placeholder="add phone" id="userPhone" autocomplete="off">
+                    <div id="phoneAlert" class="alert alert-danger text-justify p-2 ">Please add a valid number</div>
+                    <input name="email" type="email" class="form-control mb-3" placeholder="add e-mail" id="userEmail" autocomplete="off">
+                    <div id="mailAlert" class="alert alert-danger text-justify p-2 ">Please add a valid e-mail</div>
+
+                    <button type="submit" onclick="addContact()" class="btn btn-info w-100 btn1">Add</button>
+
+                </form>
 
             </div>
 
 
             <div class="col-lg-8">
-                <?php if(!is_null($search_keyword)): ?>
+                <?php if (!is_null($search_keyword)) : ?>
 
-                <h3 class="mb-3">search results for: <span class="text-warning"><?= $search_keyword ?></span></h3>
+                    <h3 class="mb-3">search results for: <span class="text-warning"><?= $search_keyword ?></span></h3>
 
                 <?php endif; ?>
 
@@ -93,15 +97,15 @@
                 $pageSize = $contactModel->getPageSize();
                 $totalRows = $contactModel->count([]);
                 $display = 'block';
-                if($totalRows < $pageSize){
+                if ($totalRows < $pageSize) {
                     $display = 'none';
                 }
-                
+
                 ?>
 
                 <div class="mt-5" style="display:<?= $display ?>;">
                     <ul class="pagination justify-content-center flex-wrap">
-                        <?php paginationItems($contactModel);?>
+                        <?php paginationItems($contactModel); ?>
                     </ul>
                 </div>
 

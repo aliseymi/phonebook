@@ -59,6 +59,16 @@ if (!function_exists('view')) {
     }
 }
 
+if (!function_exists('view_die')) {
+
+    function view_die(string $path, array $data = []){
+        view($path, $data);
+
+        die();
+    }
+
+}
+
 if (!function_exists('strContains')) {
 
     function strContains(string $str, string $needle, $case_sensitive = 0)
